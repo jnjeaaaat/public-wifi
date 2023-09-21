@@ -2,19 +2,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <style>
+        table { border-collapse: collapse; width: 100%;}
+        th { height: 50px; background-color: #04AA6D; color: white;}
+        td { height: 35px; text-align: center; }
+        tr:nth-child(odd) {background-color: #f2f2f2;}
+        table, th, td { border: 1px solid lightgray; }
+        div { margin-bottom: 10px; }
+    </style>
 </head>
 <body>
 <h1>
-    <%= "Hello World!"
-%>
+    와이파이 정보 구하기
 </h1>
 
-<form method="get" action="hello-servlet">
-    <input type="submit" value="get 방식으로 호출하기">
-</form>
+<div class="home">
+    <a href="/"> 홈 </a> |
+    <a href="/history"> 히스토리 목록 </a> |
+    <a href="/open-wifi"> Open API 와이파이 정보 가져오기 </a>
+</div>
 
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<div>
+    LAT: <input type="text" placeholder="0.0"> ,  LNT: <input type="text" placeholder="0.0">
+    <button> 내 위치 가져오기 </button>
+    <button> 근처 WIFI 정보 보기 </button>
+</div>
+
+<div style="overflow-x:auto;">
+    <table>
+        <tr>
+            <th style="width: 5%;"> 거리</br>(Km) </th>
+            <th> 관리번호 </th>
+            <th style="width: 2%;"> 자치구 </th>
+            <th> 와이파이명 </th>
+            <th style="width: 10%;"> 도로명주소 </th>
+            <th style="width: 20%;"> 상세주소 </th>
+            <th> 설치위치</br>(층) </th>
+            <th> 설치유형 </th>
+            <th style="width: 4%;"> 설치기관 </th>
+            <th style="width: 3.5%;"> 서비스구분 </th>
+            <th> 망종류 </th>
+            <th style="width: 3%;"> 설치년도 </th>
+            <th style="width: 3%;"> 실내외구분 </th>
+            <th style="width: 4%;"> WIFI접속환경 </th>
+            <th> X좌표 </th>
+            <th> Y좌표 </th>
+            <th style="width: 8%;"> 작업일자 </th>
+        </tr>
+        <% if (request.getRequestURI().equals("/")) { %>
+        <tr style="height: 60px">
+            <td colspan='17'>
+                위치 정보를 입력한 후에 조회해 주세요.
+            </td>
+
+        </tr>
+        <% } else { %>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</div>
+
+<%--<form method="get" action="/">--%>
+<%--    <input type="submit" value="get 방식으로 호출하기">--%>
+<%--</form>--%>
+
+<%--<br/>--%>
+<a href="road-wifi">Hello Servlet</a>
 </body>
 </html>
