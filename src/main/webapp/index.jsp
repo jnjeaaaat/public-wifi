@@ -10,6 +10,9 @@
         table, th, td { border: 1px solid lightgray; }
         div { margin-bottom: 10px; }
     </style>
+    <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
+    <script type="text/javascript" src="js/test.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
 </head>
 <body>
 <h1>
@@ -19,12 +22,13 @@
 <div class="home">
     <a href="/"> 홈 </a> |
     <a href="/history"> 히스토리 목록 </a> |
-    <a href="/open-wifi"> Open API 와이파이 정보 가져오기 </a>
+    <a href="/index-servlet"> Open API 와이파이 정보 가져오기 </a>
 </div>
 
 <div>
-    LAT: <input type="text" placeholder="0.0"> ,  LNT: <input type="text" placeholder="0.0">
-    <button> 내 위치 가져오기 </button>
+    LAT: <input id="myLatitude" type="text" placeholder="0.0"> ,
+    LNT: <input id="myLongitude" type="text" placeholder="0.0">
+    <button onclick="getMyLocation()"> 내 위치 가져오기 </button>
     <button> 근처 WIFI 정보 보기 </button>
 </div>
 
@@ -71,6 +75,13 @@
 <%--</form>--%>
 
 <%--<br/>--%>
+<button id="button1" onclick="buttonClick()"> 버튼입니다. 누르면 alert </button>
+<%--<script>--%>
+<%--    const buttonClick = function () {--%>
+<%--        alert("clicked")--%>
+<%--    }--%>
+<%--</script>--%>
+<p></p>
 <a href="road-wifi">Hello Servlet</a>
 </body>
 </html>
