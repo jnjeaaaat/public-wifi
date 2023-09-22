@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="public-wifi" uuid="e9e6db88-b196-4706-accc-fb735c55c7c9">
+    <data-source source="LOCAL" name="public-wifi.db" uuid="eed0a49a-1bbd-4963-9258-4f10e1f878b1">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Documents/sqlite-studio-db/public-wifi</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/Documents/sqlite-studio-db/public-wifi.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
