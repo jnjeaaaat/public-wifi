@@ -2,7 +2,6 @@ package com.example.publicwifi.Service;
 
 import com.example.publicwifi.JsonManager;
 import com.example.publicwifi.model.PublicWifi;
-import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,7 +30,6 @@ public class WifiService{
         JSONArray row = TbPublicWifiInfo.getJSONArray("row");
 
         PublicWifi publicWifi = new PublicWifi();
-//        System.out.println(row.length());
         dataService = new DataService();
 //        publicWifi.setManageNum(row.getJSONObject(1).getString("X_SWIFI_MGR_NO"));
 //        publicWifi.setLocation(row.getJSONObject(1).getString("X_SWIFI_WRDOFC"));

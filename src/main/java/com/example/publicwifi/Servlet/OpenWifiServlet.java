@@ -2,6 +2,7 @@ package com.example.publicwifi.Servlet;
 
 import com.example.publicwifi.DBConnection;
 import com.example.publicwifi.JsonManager;
+import com.example.publicwifi.Service.DataService;
 import com.example.publicwifi.Service.WifiService;
 import org.json.JSONObject;
 
@@ -22,15 +23,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.example.publicwifi.secret.Secret.WIFI_KEY;
 
-@WebServlet("/road-wifi")
+@WebServlet("/load-wifi")
 public class OpenWifiServlet extends HttpServlet{
     private static final long serialVersionUID = 1L;
-    public WifiService wifiService;
+    private WifiService wifiService;
     private JsonManager jsonManager;
+    private DataService dataService;
 
-    public OpenWifiServlet(WifiService wifiService, JsonManager jsonManager) {
+    public OpenWifiServlet(WifiService wifiService, JsonManager jsonManager, DataService dataService) {
         this.wifiService = wifiService;
         this.jsonManager = jsonManager;
+        this.dataService = dataService;
     }
 
     public OpenWifiServlet() {
@@ -80,6 +83,10 @@ public class OpenWifiServlet extends HttpServlet{
         int idx = 0;
 
         wifiService = new WifiService();
+        dataService = new DataService();
+
+        dataService.createWifiListTable();
+
         while (idx <= totalCount) {
             System.out.println("start : " + idx + ", " + "end : " + (idx+999 <= totalCount ? idx + 999 : totalCount));
             StringBuilder newUrlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/

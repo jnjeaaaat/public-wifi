@@ -22,7 +22,7 @@
 <div class="home">
     <a href="/"> 홈 </a> |
     <a href="/history"> 히스토리 목록 </a> |
-    <a href="/index-servlet"> Open API 와이파이 정보 가져오기 </a>
+    <a href="/load-wifi"> Open API 와이파이 정보 가져오기 </a>
 </div>
 
 <div>
@@ -81,7 +81,7 @@
 <%--        alert("clicked")--%>
 <%--    }--%>
 <%--</script>--%>
-<p></p>
-<a href="road-wifi">Hello Servlet</a>
+<%--<p></p>--%>
+<%--<a href="load-wifi">Hello Servlet</a>--%>
 </body>
 </html>

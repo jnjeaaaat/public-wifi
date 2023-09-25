@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DataService {
     private Connection conn;
@@ -18,15 +19,49 @@ public class DataService {
         this.ps = ps;
     }
 
-    public DataService(){}
-
-    public void addWifiData(PublicWifi publicWifi){
+    public DataService(){
         conn = DBConnection.getConnection();
+    }
 
-        String sql = "INSERT INTO wifiList(manageNum, location, name, roadAddress, detailAddress, layer, category, agency, division, webType, installYear, inOut, environment, latitude, longitude) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public void createWifiListTable() {
+        System.out.println("test");
+        String dropQuery = "DROP TABLE wifiList";
+        String createTableQuery = "CREATE TABLE wifiList ("
+                + "wifiId        INTEGER   PRIMARY KEY AUTOINCREMENT,"
+                + "manageNum     TEXT,"
+                + "location      TEXT,"
+                + "name          TEXT,"
+                + "roadAddress   TEXT,"
+                + "detailAddress TEXT,"
+                + "layer         TEXT,"
+                + "category      TEXT,"
+                + "agency        TEXT,"
+                + "division      TEXT,"
+                + "webType       TEXT,"
+                + "installYear   TEXT,"
+                + "inOut         TEXT,"
+                + "environment   TEXT,"
+                + "latitude      TEXT,"
+                + "longitude     TEXT,"
+                + "createdAt     TIMESTAMP DEFAULT (CURRENT_TIMESTAMP))";
 
         try {
-            ps = conn.prepareStatement(sql);
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(dropQuery);
+
+            statement = conn.createStatement();
+            statement.executeUpdate(createTableQuery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addWifiData(PublicWifi publicWifi){
+
+        String insertQuery = "INSERT INTO wifiList(manageNum, location, name, roadAddress, detailAddress, layer, category, agency, division, webType, installYear, inOut, environment, latitude, longitude) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try {
+            ps = conn.prepareStatement(insertQuery);
             ps.setString(1, publicWifi.getManageNum());
             ps.setString(2, publicWifi.getLocation());
             ps.setString(3, publicWifi.getName());
