@@ -9,12 +9,6 @@ public class JsonManager {
         return jsonObject;
     }
 
-//    public JSONObject getWifiList(String jsonString) {
-//        JSONObject jsonObject = new JSONObject(jsonString);
-////        JSONObject
-//        return jsonObject;
-//    }
-
     public int getTotalWifiCount(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject TbPublicWifiInfo = jsonObject.getJSONObject("TbPublicWifiInfo");

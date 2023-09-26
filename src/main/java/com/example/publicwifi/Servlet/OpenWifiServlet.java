@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -129,11 +130,10 @@ public class OpenWifiServlet extends HttpServlet{
         rd.close();
         conn.disconnect();
 
-        // Hello
-//        PrintWriter out = response.getWriter();
-//        out.println("<html><body>");
-//        out.println("<p>" + jsonManager.convertToJson(sb.toString()) + "</p>");
-//        out.println("</body></html>");
+
+        request.setAttribute("totalCount", totalCount);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("loadWifi.jsp");
+        dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
