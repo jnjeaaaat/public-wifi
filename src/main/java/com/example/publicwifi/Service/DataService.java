@@ -2,6 +2,7 @@ package com.example.publicwifi.Service;
 
 import com.example.publicwifi.DBConnection;
 import com.example.publicwifi.JsonManager;
+import com.example.publicwifi.model.History;
 import com.example.publicwifi.model.PublicWifi;
 import lombok.NoArgsConstructor;
 
@@ -121,6 +122,7 @@ public class DataService {
                 wifi.setLatitude(resultSet.getString("latitude"));
                 wifi.setLongitude(resultSet.getString("longitude"));
                 wifi.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+
                 wifiList.add(wifi);
             }
 
@@ -129,6 +131,57 @@ public class DataService {
         }
 
         return wifiList;
+    }
+
+    public void createHistory(String latitude, String longitude) throws Exception{
+        String createHistoryQuery = "INSERT INTO history (latitude, longitude) values (?, ?)";
+
+        try {
+            ps = conn.prepareStatement(createHistoryQuery);
+            ps.setString(1, latitude);
+            ps.setString(2, longitude);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<History> getHistoryList() throws Exception{
+        List<History> histories = new ArrayList<>();
+        String getHistoryListQuery = "SELECT * FROM history";
+
+        try {
+            ps = conn.prepareStatement(getHistoryListQuery);
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                History history = new History();
+
+                history.setHistoryId(resultSet.getInt("historyId"));
+                history.setLatitude(resultSet.getString("latitude"));
+                history.setLongitude(resultSet.getString("longitude"));
+                history.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+
+                histories.add(history);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return histories;
+    }
+
+    public void deleteHistory(int historyId) {
+        String deleteHistoryQuery = "DELETE FROM history WHERE historyId = ?";
+
+        try {
+            ps = conn.prepareStatement(deleteHistoryQuery);
+            ps.setInt(1, historyId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public double getDistance(double lat1, double lat2, double lon1, double lon2) {

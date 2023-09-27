@@ -55,22 +55,9 @@
         doubleLatitude = Double.parseDouble(latitude);
         doubleLongitude = Double.parseDouble(longitude);
         wifiList = wifiService.getWifiList(doubleLatitude, doubleLongitude);
+        wifiService.createHistory(latitude, longitude); // save history
     }
-
-    for (PublicWifi pw : wifiList) {
-        System.out.println(pw.getDistance());
-    }
-    System.out.println(doubleLatitude);
-    System.out.println(doubleLongitude);
 %>
-
-<%
-    wifiService.
-%>
-
-<%--<% for (int i = 0; i < wifiList.size(); i++) { %>--%>
-<%--    <p> <%=Math.round(wifiList.get(i).getDistance() * 10000.0) / 10000.0%> </p>--%>
-<%--<%}%>--%>
 
 <script type="text/javascript">
     document.getElementById("myLatitude").value = <%=doubleLatitude%>;
@@ -79,25 +66,6 @@
 
 <div style="overflow-x:auto;">
     <table>
-<%--        <tr>--%>
-<%--            <th style="width: 5%;"> 거리</br>(Km) </th>--%>
-<%--            <th> 관리번호 </th>--%>
-<%--            <th style="width: 2%;"> 자치구 </th>--%>
-<%--            <th> 와이파이명 </th>--%>
-<%--            <th style="width: 10%;"> 도로명주소 </th>--%>
-<%--            <th style="width: 20%;"> 상세주소 </th>--%>
-<%--            <th> 설치위치</br>(층) </th>--%>
-<%--            <th> 설치유형 </th>--%>
-<%--            <th style="width: 4%;"> 설치기관 </th>--%>
-<%--            <th style="width: 3.5%;"> 서비스구분 </th>--%>
-<%--            <th> 망종류 </th>--%>
-<%--            <th style="width: 3%;"> 설치년도 </th>--%>
-<%--            <th style="width: 3%;"> 실내외구분 </th>--%>
-<%--            <th style="width: 4%;"> WIFI접속환경 </th>--%>
-<%--            <th> X좌표 </th>--%>
-<%--            <th> Y좌표 </th>--%>
-<%--            <th style="width: 8%;"> 작업일자 </th>--%>
-<%--        </tr>--%>
         <tr>
             <th> 거리(Km) </th>
             <th> 관리번호 </th>
@@ -147,8 +115,8 @@
     </table>
 </div>
 
-
-<%--<button id="button1" onclick="buttonClick()"> 버튼입니다. 누르면 alert </button>--%>
-
+<div>
+    <input type="button" id="testButton" value="눌러봐!">
+</div>
 </body>
 </html>

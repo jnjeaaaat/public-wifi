@@ -89,7 +89,7 @@ public class OpenWifiServlet extends HttpServlet{
         dataService.createWifiListTable();
 
         while (idx <= totalCount) {
-            System.out.println("start : " + idx + ", " + "end : " + (idx+999 <= totalCount ? idx + 999 : totalCount));
+//            System.out.println("start : " + idx + ", " + "end : " + (idx+999 <= totalCount ? idx + 999 : totalCount));
             StringBuilder newUrlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
             newUrlBuilder.append("/" +  URLEncoder.encode(WIFI_KEY,"UTF-8") ); /*인증키 (sample사용시에는 호출시 제한됩니다.)*/
             newUrlBuilder.append("/" +  URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
@@ -101,7 +101,6 @@ public class OpenWifiServlet extends HttpServlet{
                 newUrlBuilder.append("/" + URLEncoder.encode(String.valueOf(totalCount),"UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
             }
 
-//            System.out.println("worked");
             url = new URL(newUrlBuilder.toString());
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -114,7 +113,6 @@ public class OpenWifiServlet extends HttpServlet{
                 rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
 
-//            System.out.println("worked2");
             StringBuilder sb2 = new StringBuilder();
             String newline;
             while ((newline = rd.readLine()) != null) {
@@ -129,7 +127,6 @@ public class OpenWifiServlet extends HttpServlet{
 
         rd.close();
         conn.disconnect();
-
 
         request.setAttribute("totalCount", totalCount);
         RequestDispatcher dispatcher = request.getRequestDispatcher("loadWifi.jsp");

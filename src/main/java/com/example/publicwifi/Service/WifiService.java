@@ -1,6 +1,7 @@
 package com.example.publicwifi.Service;
 
 import com.example.publicwifi.JsonManager;
+import com.example.publicwifi.model.History;
 import com.example.publicwifi.model.PublicWifi;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +15,7 @@ import java.util.List;
 public class WifiService{
 
     private JsonManager jsonManager;
-    private DataService dataService;
+    private DataService dataService = new DataService();
     private Connection conn;
     private PreparedStatement ps;
 
@@ -34,7 +35,6 @@ public class WifiService{
         JSONArray row = TbPublicWifiInfo.getJSONArray("row");
 
         PublicWifi publicWifi = new PublicWifi();
-        dataService = new DataService();
         for (int i = 0; i < row.length(); i++) {
             publicWifi.setManageNum(row.getJSONObject(i).getString("X_SWIFI_MGR_NO"));
             publicWifi.setLocation(row.getJSONObject(i).getString("X_SWIFI_WRDOFC"));
@@ -57,7 +57,6 @@ public class WifiService{
     }
 
     public List<PublicWifi> getWifiList(double latitude, double longitude) {
-        dataService = new DataService();
         List<PublicWifi> allWifiList = dataService.getWifiList(latitude, longitude);
         List<PublicWifi> twentyWifiList = new ArrayList<>();
         System.out.println("총 개수: " + allWifiList.size());
@@ -78,4 +77,37 @@ public class WifiService{
         return twentyWifiList;
     }
 
+    public void createHistory(String latitude, String longitude) {
+        try {
+            dataService.createHistory(latitude, longitude);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<History> getHistoryList(){
+        List<History> histories = new ArrayList<>();
+
+        try {
+            histories = dataService.getHistoryList();
+            histories.sort(new Comparator<History>() {
+                @Override
+                public int compare(History o1, History o2) {
+                    return o2.getHistoryId() - o1.getHistoryId();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return histories;
+    }
+
+    public void deleteHistory(int historyId) {
+        try {
+            dataService.deleteHistory(historyId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
