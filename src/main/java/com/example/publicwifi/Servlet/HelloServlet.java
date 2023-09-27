@@ -8,8 +8,6 @@ import javax.servlet.annotation.*;
 public class HelloServlet extends HttpServlet {
     private String message;
 
-    // String apiKey = "7857745744656b733534676d6a6546";
-
     public void init() {
         message = "Hello!";
     }

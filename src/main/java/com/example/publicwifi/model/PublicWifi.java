@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class PublicWifi {
-    private long wifiId;
+    private int wifiId;
+    private double distance;
     private String manageNum;
     private String location;
     private String name;
@@ -28,8 +29,17 @@ public class PublicWifi {
     private String longitude;
     private LocalDateTime createdAt;
 
+
+    public void setWifiId(int wifiId) {
+        this.wifiId = wifiId;
+    }
+
     public void setManageNum(String manageNum) {
         this.manageNum = manageNum;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public void setLocation(String location) {
@@ -88,8 +98,16 @@ public class PublicWifi {
         this.longitude = longitude;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public long getWifiId() {
         return wifiId;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 
     public String getManageNum() {
