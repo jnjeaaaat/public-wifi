@@ -1,0 +1,98 @@
+<%@ page import="java.sql.*" %><%--
+  Created by IntelliJ IDEA.
+  User: parktj
+  Date: 2023/09/29
+  Time: 10:40 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+</head>
+<body>
+<%
+    String bmName = request.getParameter("bookmarkName");
+    String bmNum = request.getParameter("bookmarkNum");
+
+    request.setCharacterEncoding("utf-8");
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rsNum = null;
+    ResultSet rsName = null;
+
+    Class.forName("org.sqlite.JDBC");
+
+
+    int isExistBookmarkNum = 0;
+    int isExistBookmarkName = 0;
+
+    try {
+        conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+
+        String isExistBookmarkNumQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmNum = ?)";
+        pstmt = conn.prepareStatement(isExistBookmarkNumQuery);
+        pstmt.setString(1, bmNum);
+        rsNum = pstmt.executeQuery();
+        isExistBookmarkNum = Integer.parseInt(rsNum.getString(1));
+        System.out.println("num : " + isExistBookmarkNum);
+
+        String isExistBookmarkNameQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmName = ?)";
+        pstmt = conn.prepareStatement(isExistBookmarkNameQuery);
+        pstmt.setString(1, bmName);
+        rsName = pstmt.executeQuery();
+        isExistBookmarkName = Integer.parseInt(rsName.getString(1));
+        System.out.println("name : " + isExistBookmarkName);
+        boolean isExistsData = true;
+%>
+<script>
+    function isExist() {
+        console.log('hi');
+        const isExistBookmarkNum = '<%= isExistBookmarkNum %>';
+        const isExistBookmarkName = '<%= isExistBookmarkName %>';
+        const bookmarkForm = document.addBookmark;
+
+        if (isExistBookmarkName == 1) {
+            alert("중복된 이름입니다.");
+            bookmarkForm.bookmarkName.focus();
+            <%=isExistsData%> = false;
+        }
+
+        if (isExistBookmarkNum == 1) {
+            alert("이미 지정받은 순번입니다. 다른 순번을 입력해주세요.");
+            bookmarkForm.bookmarkNum.focus();
+            <%=isExistsData%> = false;
+        }
+    }
+</script>
+<%
+        String addBookmarkQuery = "INSERT INTO bookmark(bmName, bmNum) VALUES(?, ?)";
+        pstmt = conn.prepareStatement(addBookmarkQuery);
+        pstmt.setString(1, bmName);
+        pstmt.setString(2, bmNum);
+        if (isExistsData) {
+            pstmt.executeUpdate();
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+
+    } finally {
+        if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
+        if (conn != null) try { conn.close(); } catch (SQLException ex) {}
+        if (rsNum != null) try {
+            rsNum.close();
+        } catch (SQLException ex) {
+        }
+        if (rsName != null) try {
+            rsName.close();
+        } catch (SQLException ex) {
+        }
+    }
+
+    response.sendRedirect("/bookmark-group");
+%>
+
+
+
+</body>
+</html>

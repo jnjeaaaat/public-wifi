@@ -4,6 +4,10 @@
 <%@ page import="com.example.publicwifi.Service.DataService" %>
 <%@ page import="javax.xml.crypto.Data" %>
 <%@ page import="com.example.publicwifi.Service.WifiService" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.DriverManager" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -26,11 +30,7 @@
     와이파이 정보 구하기
 </h1>
 
-<div class="home">
-    <a href="/"> 홈 </a> |
-    <a href="/history"> 히스토리 목록 </a> |
-    <a href="/load-wifi"> Open API 와이파이 정보 가져오기 </a>
-</div>
+<jsp:include page="jsp/head.jsp"></jsp:include>
 
 <div>
     <form method="get">
@@ -86,15 +86,37 @@
             <th> 작업일자 </th>
         </tr>
         <% if (wifiList.size() < 1) { %>
-            <jsp:include page="initPage.jsp"></jsp:include>
+            <jsp:include page="jsp/initPage.jsp"></jsp:include>
 
         <%} else {
+
+//            Connection conn = null;
+//            PreparedStatement pstmt = null;
+//            ResultSet rs = null;
+//
+//            Class.forName("org.sqlite.JDBC");
+//
+//            try {
+//                conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+//
+//                if (conn != null) {
+//                    System.out.println("Connect!");
+//                } else {
+//                    System.out.println("Disconnected..");
+//                }
+//
+//                String getHistoryQuery = "SELECT * FROM history";
+//                pstmt = conn.prepareStatement(getHistoryQuery);
+//
+//                rs = pstmt.executeQuery();
+//
+//                while (rs.next()) {
             for (PublicWifi pw : wifiList) { %>
         <tr>
             <td><%= pw.getDistance() %> </td>
             <td><%= pw.getManageNum() %> </td>
             <td><%= pw.getLocation() %> </td>
-            <td><%= pw.getName() %> </td>
+            <td><a href="#"><%= pw.getName() %></a></td>
             <td><%= pw.getRoadAddress() %> </td>
             <td><%= pw.getDetailAddress() %> </td>
             <td><%= pw.getLayer() %> </td>

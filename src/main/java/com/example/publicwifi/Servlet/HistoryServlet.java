@@ -18,7 +18,7 @@ public class HistoryServlet extends HttpServlet {
         List<History> histories = wifiService.getHistoryList();
 
         request.setAttribute("histories", histories);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("history.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/history/history.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -28,7 +28,7 @@ public class HistoryServlet extends HttpServlet {
         System.out.println(historyId);
         wifiService.deleteHistory(historyId);
 
-        response.sendRedirect("history.jsp");
+        response.sendRedirect("jsp/history/history.jsp");
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("history.jsp");
 //        dispatcher.forward(request, response);
     }

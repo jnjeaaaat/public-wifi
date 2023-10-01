@@ -129,7 +129,7 @@ public class OpenWifiServlet extends HttpServlet{
         conn.disconnect();
 
         request.setAttribute("totalCount", totalCount);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("loadWifi.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/wifi/loadWifi.jsp");
         dispatcher.forward(request, response);
     }
 
