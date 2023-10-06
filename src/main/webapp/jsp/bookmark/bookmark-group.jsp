@@ -65,13 +65,14 @@
                 <td> <%
                     if (rs.getString("updatedAt") != null) {
                 %><%= rs.getString("updatedAt") %>
-                <%} %></td>
+                    <%} %></td>
                 <td style="text-align: center">
-                    <a href="/bookmark-group-edit"> 수정 </a> &ensp;
-                    <a href="/#"> 삭제 </a>
-<%--                    <input type="button" onclick="location.href='deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">--%>
-<%--                    <input type=""--%>
+                    <a href="/bookmark-group-edit">수정</a>
+                    <a href="jsp/bookmark/delete-bookmark-group.jsp?bmId=<%=rs.getInt("bmId")%>">삭제</a>
+                    <%--                    <input type="button" onclick="location.href='deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">--%>
+                    <%--                    <input type=""--%>
                 </td>
+
             </tr>
 
         <%

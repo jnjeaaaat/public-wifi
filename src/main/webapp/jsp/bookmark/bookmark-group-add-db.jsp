@@ -56,16 +56,16 @@
         const isExistBookmarkName = '<%= isExistBookmarkName %>';
         const bookmarkForm = document.addBookmark;
 
-        if (isExistBookmarkName == 1) {
+        if (isExistBookmarkName === 1) {
             alert("중복된 이름입니다.");
             bookmarkForm.bookmarkName.focus();
-            <%=isExistsData%> = false;
+            return false;
         }
 
-        if (isExistBookmarkNum == 1) {
+        if (isExistBookmarkNum === 1) {
             alert("이미 지정받은 순번입니다. 다른 순번을 입력해주세요.");
             bookmarkForm.bookmarkNum.focus();
-            <%=isExistsData%> = false;
+            return false;
         }
     }
 </script>

@@ -66,7 +66,9 @@
                 <td><%= rs.getString("latitude") %></td>
                 <td><%= rs.getString("longitude") %></td>
                 <td><%= rs.getString("createdAt") %></td>
-                <td style="text-align: center"> <input type="button" onclick="location.href='jsp/history/deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제"></td>
+                <td style="text-align: center">
+                    <input type="button" onclick="location.href='jsp/history/deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">
+                </td>
             </tr>
 
         <%

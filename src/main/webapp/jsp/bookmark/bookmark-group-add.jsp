@@ -33,7 +33,7 @@
 
 <div style="overflow-x:auto;">
     <table>
-        <form method="post" action="jsp/bookmark/bookmark-group-add-db.jsp" name="addBookmark" accept-charset="utf-8">
+        <form method="post" action="jsp/bookmark/bookmark-group-add-db.jsp" name="addBookmark" accept-charset="utf-8" onsubmit="return isExist()">
         <tr>
             <td class="vertical-td"> 북마크 이름 </td>
             <td> <input type="text" name="bookmarkName" style="ime-mode: active"> </td>
@@ -44,99 +44,99 @@
         </tr>
         <tr>
             <td colspan='2'>
-                <input type="submit" value="추가" onclick="isExist()">
+                <input type="submit" value="추가">
             </td>
         </tr>
         </form>
     </table>
 </div>
 
-<%
+<%--<%--%>
 
 
-    String bmNum = request.getParameter("bookmarkNum");
-    String bmName = request.getParameter("bookmarkName");
-    int bmNumInt = 0;
-    if (bmNum != null) {
-        bmNumInt = Integer.parseInt(bmNum);
-    }
-
-
-
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rsNum = null;
-    ResultSet rsName = null;
-
-    Class.forName("org.sqlite.JDBC");
-
-    int isExistBookmarkNum = 0;
-    int isExistBookmarkName = 0;
-
-    try {
-        conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
-
-        String isExistBookmarkNumQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmNum = ?)";
-        pstmt = conn.prepareStatement(isExistBookmarkNumQuery);
-        pstmt.setInt(1, bmNumInt);
-        rsNum = pstmt.executeQuery();
-        isExistBookmarkNum = Integer.parseInt(rsNum.getString(1));
-        System.out.println("num : " + isExistBookmarkNum);
+<%--    String bmNum = request.getParameter("bookmarkNum");--%>
+<%--    String bmName = request.getParameter("bookmarkName");--%>
+<%--    int bmNumInt = 0;--%>
+<%--    if (bmNum != null) {--%>
+<%--        bmNumInt = Integer.parseInt(bmNum);--%>
+<%--    }--%>
 
 
 
-        String isExistBookmarkNameQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmName = ?)";
-        pstmt = conn.prepareStatement(isExistBookmarkNameQuery);
-        pstmt.setString(1, bmName);
-        rsName = pstmt.executeQuery();
-        isExistBookmarkName = Integer.parseInt(rsName.getString(1));
-        System.out.println("name : " + isExistBookmarkName);
+<%--    Connection conn = null;--%>
+<%--    PreparedStatement pstmt = null;--%>
+<%--    ResultSet rsNum = null;--%>
+<%--    ResultSet rsName = null;--%>
+
+<%--    Class.forName("org.sqlite.JDBC");--%>
+
+<%--    int isExistBookmarkNum = 0;--%>
+<%--    int isExistBookmarkName = 0;--%>
+
+<%--    try {--%>
+<%--        conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");--%>
+
+<%--        String isExistBookmarkNumQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmNum = ?)";--%>
+<%--        pstmt = conn.prepareStatement(isExistBookmarkNumQuery);--%>
+<%--        pstmt.setInt(1, bmNumInt);--%>
+<%--        rsNum = pstmt.executeQuery();--%>
+<%--        isExistBookmarkNum = Integer.parseInt(rsNum.getString(1));--%>
+<%--        System.out.println("num : " + isExistBookmarkNum);--%>
 
 
 
-    } catch (Exception e) {
-        e.printStackTrace();
+<%--        String isExistBookmarkNameQuery = "SELECT EXISTS (SELECT * FROM bookmark WHERE bmName = ?)";--%>
+<%--        pstmt = conn.prepareStatement(isExistBookmarkNameQuery);--%>
+<%--        pstmt.setString(1, bmName);--%>
+<%--        rsName = pstmt.executeQuery();--%>
+<%--        isExistBookmarkName = Integer.parseInt(rsName.getString(1));--%>
+<%--        System.out.println("name : " + isExistBookmarkName);--%>
 
-    } finally {
-        if (pstmt != null) try {
-            pstmt.close();
-        } catch (SQLException ex) {
-        }
-        if (conn != null) try {
-            conn.close();
-        } catch (SQLException ex) {
-        }
-        if (rsNum != null) try {
-            rsNum.close();
-        } catch (SQLException ex) {
-        }
-        if (rsName != null) try {
-            rsName.close();
-        } catch (SQLException ex) {
-        }
-    }
-%>
 
-<script>
-    function isExsist() {
-        console.log('hi');
-        const isExistBookmarkNum = '<%= isExistBookmarkNum %>';
-        const isExistBookmarkName = '<%= isExistBookmarkName %>';
-        const bookmarkForm = document.addBookmark;
 
-        if (isExistBookmarkName == 1) {
-            alert("중복된 이름입니다.");
-            bookmarkForm.bookmarkName.focus();
-            return false;
-        }
+<%--    } catch (Exception e) {--%>
+<%--        e.printStackTrace();--%>
 
-        if (isExistBookmarkNum == 1) {
-            alert("이미 지정받은 순번입니다. 다른 순번을 입력해주세요.");
-            bookmarkForm.bookmarkNum.focus();
-            return false;
-        }
-    }
-</script>
+<%--    } finally {--%>
+<%--        if (pstmt != null) try {--%>
+<%--            pstmt.close();--%>
+<%--        } catch (SQLException ex) {--%>
+<%--        }--%>
+<%--        if (conn != null) try {--%>
+<%--            conn.close();--%>
+<%--        } catch (SQLException ex) {--%>
+<%--        }--%>
+<%--        if (rsNum != null) try {--%>
+<%--            rsNum.close();--%>
+<%--        } catch (SQLException ex) {--%>
+<%--        }--%>
+<%--        if (rsName != null) try {--%>
+<%--            rsName.close();--%>
+<%--        } catch (SQLException ex) {--%>
+<%--        }--%>
+<%--    }--%>
+<%--%>--%>
+
+<%--<script>--%>
+<%--    function isExsist() {--%>
+<%--        console.log('hi');--%>
+<%--        const isExistBookmarkNum = '<%= isExistBookmarkNum %>';--%>
+<%--        const isExistBookmarkName = '<%= isExistBookmarkName %>';--%>
+<%--        const bookmarkForm = document.addBookmark;--%>
+
+<%--        if (isExistBookmarkName == 1) {--%>
+<%--            alert("중복된 이름입니다.");--%>
+<%--            bookmarkForm.bookmarkName.focus();--%>
+<%--            return false;--%>
+<%--        }--%>
+
+<%--        if (isExistBookmarkNum == 1) {--%>
+<%--            alert("이미 지정받은 순번입니다. 다른 순번을 입력해주세요.");--%>
+<%--            bookmarkForm.bookmarkNum.focus();--%>
+<%--            return false;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
 
 </body>
 </html>

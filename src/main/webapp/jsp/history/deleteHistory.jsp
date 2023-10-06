@@ -19,8 +19,8 @@
     try {
         conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
 
-        String deleteHistory = "DELETE FROM history WHERE historyId=?";
-        pstmt = conn.prepareStatement(deleteHistory);
+        String deleteHistoryQuery = "DELETE FROM history WHERE historyId=?";
+        pstmt = conn.prepareStatement(deleteHistoryQuery);
         pstmt.setString(1, historyId);
         pstmt.executeUpdate();
     } catch (Exception e) {
