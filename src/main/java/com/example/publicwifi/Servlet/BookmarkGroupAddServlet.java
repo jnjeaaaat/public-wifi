@@ -9,6 +9,8 @@ import java.io.IOException;
 public class BookmarkGroupAddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/bookmark/bookmark-group-add.jsp");
         dispatcher.forward(request, response);
     }

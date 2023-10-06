@@ -26,11 +26,6 @@
     위치 히스토리 목록
 </h1>
 
-<%
-    WifiService wifiService = new WifiService();
-    List<History> histories = (List<History>) request.getAttribute("histories");
-%>
-
 <jsp:include page="../head.jsp"></jsp:include>
 
 <div style="overflow-x:auto;">

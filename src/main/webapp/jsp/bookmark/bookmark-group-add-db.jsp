@@ -5,7 +5,11 @@
   Time: 10:40 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%
+    request.setCharacterEncoding("UTF-8");
+%>
 <html>
 <head>
 </head>
@@ -13,8 +17,9 @@
 <%
     String bmName = request.getParameter("bookmarkName");
     String bmNum = request.getParameter("bookmarkNum");
+    System.out.println(bmName);
+    System.out.println(bmNum);
 
-    request.setCharacterEncoding("utf-8");
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rsNum = null;

@@ -1,10 +1,11 @@
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        table { border-collapse: collapse; width: 100%;}
+        table { border-collapse: collapse; width: 50%;}
         th { height: 30px; background-color: #04AA6D; color: white;}
         td { padding-left: 10px; padding-right: 10px; height: 25px;}
         tr:nth-child(odd) {background-color: #f2f2f2;}
@@ -34,8 +35,6 @@
             <th> 비고 </th>
         </tr>
         <%
-            request.setCharacterEncoding("utf-8");
-
             Connection conn = null;
             PreparedStatement pstmt = null;
             ResultSet rs = null;
@@ -68,7 +67,7 @@
                 %><%= rs.getString("updatedAt") %>
                 <%} %></td>
                 <td style="text-align: center">
-                    <a href="/bookmark-group-edit"> 수정 </a>
+                    <a href="/bookmark-group-edit"> 수정 </a> &ensp;
                     <a href="/#"> 삭제 </a>
 <%--                    <input type="button" onclick="location.href='deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">--%>
 <%--                    <input type=""--%>

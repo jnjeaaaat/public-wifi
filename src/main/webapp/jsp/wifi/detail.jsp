@@ -17,28 +17,81 @@
 </head>
 <body>
 <h1>
-    북마크 그룹
+    와이파이 정보 구하기
 </h1>
 
 <jsp:include page="../head.jsp"></jsp:include>
 
 <div style="overflow-x:auto;">
-    <input type="button" onclick="location.href='bookmark-group-add'" value="북마크 그룹 이름 추가">
+<%
+        request.setCharacterEncoding("utf-8");
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Class.forName("org.sqlite.JDBC");
+
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+
+            if (conn != null) {
+                System.out.println("Connect!");
+            } else {
+                System.out.println("Disconnected..");
+            }
+
+            String getBmNameListQuery = "SELECT bmName FROM bookmark ORDER BY bmNum ASC";
+            pstmt = conn.prepareStatement(getBmNameListQuery);
+
+            rs = pstmt.executeQuery();
+%>
+    <select>
+        <%
+            while (rs.next()) {
+        %>
+            <option><%=rs.getString("bmName")%></option>
+        <%
+            }
+        %>
+    </select>
+    <%
+        } catch (Exception e) {
+        e.printStackTrace();
+
+    } finally {
+        if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
+        if (conn != null) try { conn.close(); } catch (SQLException ex) {}
+        if (rs != null) try { rs.close(); } catch (SQLException ex) {}
+    }
+
+    %>
+    <input type="submit" onclick="location.href='bookmark-group-add.jsp'" value="북마크 추가하기">
     <table>
         <tr>
-            <th> ID </th>
-            <th> 북마크 이름 </th>
-            <th> 순서 </th>
-            <th> 등록일자 </th>
-            <th> 수정일자 </th>
-            <th> 비고 </th>
+            <th> 거리(Km) </th>
+            <th> 관리번호 </th>
+            <th> 자치구 </th>
+            <th> 와이파이명 </th>
+            <th> 도로명주소 </th>
+            <th> 상세주소 </th>
+            <th> 설치위치</br>(층) </th>
+            <th> 설치유형 </th>
+            <th> 설치기관 </th>
+            <th> 서비스구분 </th>
+            <th> 망종류 </th>
+            <th> 설치년도 </th>
+            <th> 실내외구분 </th>
+            <th> WIFI접속환경 </th>
+            <th> X좌표 </th>
+            <th> Y좌표 </th>
+            <th> 작업일자 </th>
         </tr>
         <%
+            String mgrNo = request.getParameter("mgrNo");
+            String distance = request.getParameter("distance-point");
+            System.out.println(distance);
             request.setCharacterEncoding("utf-8");
-
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
 
             Class.forName("org.sqlite.JDBC");
 
@@ -51,32 +104,43 @@
                     System.out.println("Disconnected..");
                 }
 
-                String getBookmarkGroupQuery = "SELECT * FROM bookmark ORDER BY bmNum asc";
-                pstmt = conn.prepareStatement(getBookmarkGroupQuery);
+                String getWifiByName = "SELECT * FROM wifiList WHERE manageNum=?";
+                pstmt = conn.prepareStatement(getWifiByName);
+                pstmt.setString(1, mgrNo);
 
                 rs = pstmt.executeQuery();
 
-                while (rs.next()) {
         %>
-            <tr>
-                <td><%= rs.getInt("bmId") %></td>
-                <td><%= rs.getString("bmName") %></td>
-                <td><%= rs.getString("bmNum") %></td>
-                <td><%= rs.getString("createdAt") %></td>
-                <td> <%
-                    if (rs.getString("updatedAt") != null) {
-                %><%= rs.getString("updatedAt") %>
-                <%} %></td>
-                <td style="text-align: center">
-                    <a href="/bookmark-group-edit"> 수정 </a>
-                    <a href="/#"> 삭제 </a>
-<%--                    <input type="button" onclick="location.href='deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">--%>
-<%--                    <input type=""--%>
-                </td>
-            </tr>
+                <tr>
+<%--                    <td>3</td>--%>
+                    <td><%= distance %></td>
+                    <td><%= rs.getString("manageNum") %></td>
+                    <td><%= rs.getString("location") %></td>
+                    <td>
 
+                        <form method="get">
+                            <input type="hidden" name="distance-point" value=<%=distance%>>
+                            <a href="?mgrNo=<%=rs.getString("manageNum")%>">
+                                <%= rs.getString("name") %>
+                            </a>
+                        </form>
+
+                    </td>
+                    <td><%= rs.getString("roadAddress") %></td>
+                    <td><%= rs.getString("detailAddress") %></td>
+                    <td><%= rs.getString("layer") %></td>
+                    <td><%= rs.getString("category") %></td>
+                    <td><%= rs.getString("agency") %></td>
+                    <td><%= rs.getString("division") %></td>
+                    <td><%= rs.getString("webType") %></td>
+                    <td><%= rs.getString("installYear") %></td>
+                    <td><%= rs.getString("inOut") %></td>
+                    <td><%= rs.getString("environment") %></td>
+                    <td><%= rs.getString("latitude") %></td>
+                    <td><%= rs.getString("longitude") %></td>
+                    <td><%= rs.getString("createdAt") %></td>
+                </tr>
         <%
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

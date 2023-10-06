@@ -4,10 +4,8 @@
 <%@ page import="com.example.publicwifi.Service.DataService" %>
 <%@ page import="javax.xml.crypto.Data" %>
 <%@ page import="com.example.publicwifi.Service.WifiService" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.Iterator" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -57,6 +55,8 @@
         wifiList = wifiService.getWifiList(doubleLatitude, doubleLongitude);
         wifiService.createHistory(latitude, longitude); // save history
     }
+
+
 %>
 
 <script type="text/javascript">
@@ -85,54 +85,100 @@
             <th> Y좌표 </th>
             <th> 작업일자 </th>
         </tr>
-        <% if (wifiList.size() < 1) { %>
+        <%
+            if (wifiList.size() < 1) {
+        %>
             <jsp:include page="jsp/initPage.jsp"></jsp:include>
+        <%
+            } else {
 
-        <%} else {
+                Connection conn = null;
+                PreparedStatement pstmt = null;
+                ResultSet rs = null;
 
-//            Connection conn = null;
-//            PreparedStatement pstmt = null;
-//            ResultSet rs = null;
-//
-//            Class.forName("org.sqlite.JDBC");
-//
-//            try {
-//                conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
-//
-//                if (conn != null) {
-//                    System.out.println("Connect!");
-//                } else {
-//                    System.out.println("Disconnected..");
-//                }
-//
-//                String getHistoryQuery = "SELECT * FROM history";
-//                pstmt = conn.prepareStatement(getHistoryQuery);
-//
-//                rs = pstmt.executeQuery();
-//
-//                while (rs.next()) {
-            for (PublicWifi pw : wifiList) { %>
+                Class.forName("org.sqlite.JDBC");
+
+                try {
+                    conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+
+                    if (conn != null) {
+                        System.out.println("Connect!");
+                    } else {
+                        System.out.println("Disconnected..");
+                    }
+
+                    String getWifiListQuery = "SELECT * FROM wifiList w LIMIT 20 OFFSET 1";
+                    pstmt = conn.prepareStatement(getWifiListQuery);
+
+                    rs = pstmt.executeQuery();
+
+                    Iterator<PublicWifi> iterator = wifiList.iterator();
+
+                    while (iterator.hasNext()) {
+                        PublicWifi tmpPW = iterator.next();
+        %>
+<%--            <tr>--%>
+<%--                <td>3</td>--%>
+<%--                <td><%= rs.getString("manageNum") %></td>--%>
+<%--                <td><%= rs.getString("location") %></td>--%>
+<%--                <td>--%>
+<%--                    <form method="get" action="jsp/wifi/detail.jsp">--%>
+<%--                        <a href="jsp/wifi/detail.jsp?mgrNo=<%=rs.getString("manageNum")%>">--%>
+<%--                            <%= rs.getString("name") %>--%>
+<%--                        </a>--%>
+<%--                    </form>--%>
+<%--                </td>--%>
+<%--                <td><%= rs.getString("roadAddress") %></td>--%>
+<%--                <td><%= rs.getString("detailAddress") %></td>--%>
+<%--                <td><%= rs.getString("layer") %></td>--%>
+<%--                <td><%= rs.getString("category") %></td>--%>
+<%--                <td><%= rs.getString("agency") %></td>--%>
+<%--                <td><%= rs.getString("division") %></td>--%>
+<%--                <td><%= rs.getString("webType") %></td>--%>
+<%--                <td><%= rs.getString("installYear") %></td>--%>
+<%--                <td><%= rs.getString("inOut") %></td>--%>
+<%--                <td><%= rs.getString("environment") %></td>--%>
+<%--                <td><%= rs.getString("latitude") %></td>--%>
+<%--                <td><%= rs.getString("longitude") %></td>--%>
+<%--                <td><%= rs.getString("createdAt") %></td>--%>
+<%--            </tr>--%>
         <tr>
-            <td><%= pw.getDistance() %> </td>
-            <td><%= pw.getManageNum() %> </td>
-            <td><%= pw.getLocation() %> </td>
-            <td><a href="#"><%= pw.getName() %></a></td>
-            <td><%= pw.getRoadAddress() %> </td>
-            <td><%= pw.getDetailAddress() %> </td>
-            <td><%= pw.getLayer() %> </td>
-            <td><%= pw.getCategory() %> </td>
-            <td><%= pw.getAgency() %> </td>
-            <td><%= pw.getDivision() %> </td>
-            <td><%= pw.getWebType() %> </td>
-            <td><%= pw.getInstallYear() %> </td>
-            <td><%= pw.getInOut() %> </td>
-            <td><%= pw.getEnvironment() %> </td>
-            <td><%= pw.getLatitude() %> </td>
-            <td><%= pw.getLongitude() %> </td>
-            <td><%= pw.getCreatedAt() %> </td>
+            <td><%= tmpPW.getDistance() %></td>
+            <td><%= tmpPW.getManageNum() %></td>
+            <td><%= tmpPW.getLocation() %></td>
+            <td>
+                <form method="get" action="jsp/wifi/detail.jsp">
+                    <input type="hidden" name="distance-point" value=<%=tmpPW.getDistance()%>>
+                    <a href="jsp/wifi/detail.jsp?mgrNo=<%=tmpPW.getManageNum()%>">
+                        <%= tmpPW.getName() %>
+                    </a>
+                </form>
+            </td>
+            <td><%= tmpPW.getRoadAddress() %></td>
+            <td><%= tmpPW.getDetailAddress() %></td>
+            <td><%= tmpPW.getLayer() %></td>
+            <td><%= tmpPW.getCategory() %></td>
+            <td><%= tmpPW.getAgency() %></td>
+            <td><%= tmpPW.getDivision() %></td>
+            <td><%= tmpPW.getWebType() %></td>
+            <td><%= tmpPW.getInstallYear() %></td>
+            <td><%= tmpPW.getInOut() %></td>
+            <td><%= tmpPW.getEnvironment() %></td>
+            <td><%= tmpPW.getLatitude() %></td>
+            <td><%= tmpPW.getLongitude() %></td>
+            <td><%= tmpPW.getCreatedAt() %></td>
         </tr>
-            <%}%>
-        <%}%>
+        <%
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (SQLException ex) {}
+                    if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
+                    if (conn != null) try { conn.close(); } catch (SQLException ex) {}
+                }
+            }
+        %>
 
     </table>
 </div>
