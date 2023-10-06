@@ -5,7 +5,7 @@
 <html>
 <head>
     <style>
-        table { border-collapse: collapse; width: 50%;}
+        table { border-collapse: collapse; width: 35%;}
         th { height: 30px; background-color: #04AA6D; color: white;}
         td { padding-left: 10px; padding-right: 10px; height: 25px;}
         tr:nth-child(odd) {background-color: #f2f2f2;}
@@ -67,10 +67,9 @@
                 %><%= rs.getString("updatedAt") %>
                     <%} %></td>
                 <td style="text-align: center">
-                    <a href="/bookmark-group-edit">수정</a>
+                    <a href="/bookmark-group-edit?bmId=<%=rs.getInt("bmId")%>">수정</a>
                     <a href="jsp/bookmark/delete-bookmark-group.jsp?bmId=<%=rs.getInt("bmId")%>">삭제</a>
-                    <%--                    <input type="button" onclick="location.href='deleteHistory.jsp?historyId=<%= rs.getInt("historyId") %>'" value="삭제">--%>
-                    <%--                    <input type=""--%>
+
                 </td>
 
             </tr>

@@ -3,39 +3,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        table { border-collapse: collapse; width: 100%;}
-        th { height: 30px; background-color: #04AA6D; color: white;}
-        td { padding-left: 10px; padding-right: 10px; height: 25px;}
-        tr:nth-child(odd) {background-color: #f2f2f2;}
-        table, th, td { border: 1px solid lightgray; }
-        div { margin-bottom: 10px; }
-        /*form { width: 10px; }*/
-    </style>
     <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
-    <script type="text/javascript" src="../../js/test.js"></script>
 </head>
 <body>
-<h1>
-    북마크 그룹 수정
-</h1>
 
-<jsp:include page="../head.jsp"></jsp:include>
+<%
+    request.setCharacterEncoding("UTF-8");
 
-<div style="overflow-x:auto;">
-    <table>
-        <tr>
-            <td> 북마크 이름 </td>
-            <td> <input type="text" name="bookmark-name"> </td>
-        </tr>
-        <tr>
-            <td> 순서 </td>
-            <td> <input type="text" name="bookmark-num"> </td>
-        </tr>
-        <tr>
-            <td colspan='2'></td>
-        </tr>
-    </table>
-</div>
+    String bmId = request.getParameter("bmId");
+    String bmName = request.getParameter("bookmark-name");
+    String bmNum = request.getParameter("bookmark-num");
+    System.out.println("bmID : " + bmId);
+    System.out.println(bmName);
+    System.out.println("bmNum : " + bmNum);
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+
+    Class.forName("org.sqlite.JDBC");
+
+    try {
+        conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+
+        String modifyBookmarkGroupQuery = "UPDATE bookmark SET (bmName, bmNum)=(?, ?) WHERE bmId=?";
+        pstmt = conn.prepareStatement(modifyBookmarkGroupQuery);
+        pstmt.setString(1, bmName);
+        pstmt.setString(2, bmNum);
+        pstmt.setString(3, bmId);
+        pstmt.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
+        if (conn != null) try { conn.close(); } catch (SQLException ex) {}
+    }
+
+    response.sendRedirect("/bookmark-group");
+%>
+
 </body>
 </html>

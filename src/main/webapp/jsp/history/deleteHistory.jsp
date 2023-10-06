@@ -7,10 +7,11 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
+
     String historyId = request.getParameter("historyId");
     System.out.println(historyId);
 
-    request.setCharacterEncoding("utf-8");
     Connection conn = null;
     PreparedStatement pstmt = null;
 

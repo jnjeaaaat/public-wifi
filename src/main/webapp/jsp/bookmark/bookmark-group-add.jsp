@@ -8,14 +8,15 @@
 <html>
 <head>
     <style>
-        table { border-collapse: collapse; width: 100%;}
+        table { border-collapse: collapse; width: 30%;}
         th { height: 30px; background-color: #04AA6D; color: white;}
         td { padding-left: 10px; padding-right: 10px; height: 25px;}
+        tr { height: 50px; }
         tr:nth-child(even) {background-color: #f2f2f2;}
         table, th, td { border: 1px solid lightgray; }
         div { margin-bottom: 10px; }
 
-        .vertical-td { text-align:center; background-color: #04AA6D; color: white; }
+        .vertical-td { text-align:center; background-color: #04AA6D; color: white; font-weight: bolder}
         /*form { width: 10px; }*/
     </style>
     <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
@@ -42,8 +43,8 @@
             <td class="vertical-td"> 순서 </td>
             <td> <input type="text" name="bookmarkNum"> </td>
         </tr>
-        <tr>
-            <td colspan='2'>
+        <tr style="height: 35px">
+            <td style="text-align: center;" colspan='2'>
                 <input type="submit" value="추가">
             </td>
         </tr>
