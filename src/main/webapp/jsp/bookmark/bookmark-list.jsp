@@ -18,7 +18,7 @@
 </head>
 <body>
 <h1>
-    북마크 그룹
+    북마크 목록
 </h1>
 
 <jsp:include page="../head.jsp"></jsp:include>
@@ -49,7 +49,7 @@
                 }
 
                 String getBookmarkListQuery =
-                        "SELECT bw.bmWifiId, b.bmName, w.name, bw.createdAt " +
+                        "SELECT bw.bmWifiId, b.bmName, w.name as wifiName, bw.createdAt " +
                         "FROM bookmarkWifi bw " +
                         "LEFT JOIN bookmark b on bw.bmId = b.bmId " +
                         "lEFT JOIN wifiList w on bw.wifiId = w.wifiId";
@@ -63,11 +63,10 @@
         <tr>
             <td><%= rs.getInt("bmWifiId") %></td>
             <td><%= rs.getString("bmName") %></td>
-            <td><%= rs.getString("name") %></td>
+            <td><%= rs.getString("wifiName") %></td>
             <td><%= rs.getString("createdAt") %></td>
             <td style="text-align: center">
-                삭제
-
+                <a href="/bookmark-delete?id=<%=rs.getInt("bmWifiId")%>"> 삭제 </a>
             </td>
 
         </tr>
