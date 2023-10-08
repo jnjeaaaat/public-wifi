@@ -22,6 +22,7 @@
 
 <jsp:include page="../head.jsp"></jsp:include>
 
+<form method="post"></form>
 <div style="overflow-x:auto;">
 <%
         request.setCharacterEncoding("utf-8");
@@ -67,6 +68,7 @@
 
     %>
     <input type="submit" onclick="location.href='bookmark-group-add.jsp'" value="북마크 추가하기">
+
     <table>
         <tr>
             <th> 거리(Km) </th>

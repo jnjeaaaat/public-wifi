@@ -148,7 +148,7 @@
             <td><%= tmpPW.getLocation() %></td>
             <td>
                 <form method="get" action="jsp/wifi/detail.jsp">
-                    <input type="hidden" name="distance-point" value=<%=tmpPW.getDistance()%>>
+                    <input type="hidden" name="distance-point" value="<%=tmpPW.getDistance()%>">
                     <a href="jsp/wifi/detail.jsp?mgrNo=<%=tmpPW.getManageNum()%>">
                         <%= tmpPW.getName() %>
                     </a>
@@ -183,8 +183,5 @@
     </table>
 </div>
 
-<div>
-    <input type="button" id="testButton" value="눌러봐!">
-</div>
 </body>
 </html>
