@@ -22,14 +22,20 @@
 
 <jsp:include page="../head.jsp"></jsp:include>
 
-<form method="post"></form>
+<%--<form method="post" action="../bookmark/bookmark-add.jsp">--%>
 <div style="overflow-x:auto;">
 <%
         request.setCharacterEncoding("utf-8");
 
+        String mgrNo = request.getParameter("mgrNo");
+        String distance = request.getParameter("distance-point");
+        String group_id = request.getParameter("group-id");
+        System.out.println(distance);
+
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        ResultSet rsOption = null;
+        ResultSet rsWifi = null;
 
         Class.forName("org.sqlite.JDBC");
 
@@ -42,32 +48,31 @@
                 System.out.println("Disconnected..");
             }
 
-            String getBmNameListQuery = "SELECT bmName FROM bookmark ORDER BY bmNum ASC";
+            String getBmNameListQuery = "SELECT bmId, bmName FROM bookmark ORDER BY bmNum ASC";
             pstmt = conn.prepareStatement(getBmNameListQuery);
+            rsOption = pstmt.executeQuery();
 
-            rs = pstmt.executeQuery();
+            String getWifiByName = "SELECT * FROM wifiList WHERE manageNum=?";
+            pstmt = conn.prepareStatement(getWifiByName);
+            pstmt.setString(1, mgrNo);
+            rsWifi = pstmt.executeQuery();
 %>
-    <select>
-        <%
-            while (rs.next()) {
-        %>
-            <option><%=rs.getString("bmName")%></option>
-        <%
-            }
-        %>
-    </select>
-    <%
-        } catch (Exception e) {
-        e.printStackTrace();
-
-    } finally {
-        if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
-        if (conn != null) try { conn.close(); } catch (SQLException ex) {}
-        if (rs != null) try { rs.close(); } catch (SQLException ex) {}
-    }
-
-    %>
-    <input type="submit" onclick="location.href='bookmark-group-add.jsp'" value="북마크 추가하기">
+    <form method="post" action="../../jsp/bookmark/bookmark-add.jsp">
+        <input type="hidden" name="mgrNo" value="<%=rsWifi.getString("manageNum")%>">
+        <select id="group-id" name="group-id">
+            <option value="" <%=group_id==null?"selected":""%>>북마크 그룹 이름 선택</option>
+            <%
+                while (rsOption.next()) {
+                    String bmId = rsOption.getString("bmId");
+                    String bmName = rsOption.getString("bmName");
+            %>
+            <option value="<%=bmId%>" <%=bmId.equals(group_id)?"selected":""%>> <%=bmName%> </option>
+            <%
+                }
+            %>
+        </select>
+        <input type="hidden" name="wifiId" value="<%=rsWifi.getString("wifiId")%>">
+        <input type="submit" value="북마크 추가하기">
 
     <table>
         <tr>
@@ -89,69 +94,50 @@
             <th> Y좌표 </th>
             <th> 작업일자 </th>
         </tr>
-        <%
-            String mgrNo = request.getParameter("mgrNo");
-            String distance = request.getParameter("distance-point");
-            System.out.println(distance);
-            request.setCharacterEncoding("utf-8");
-
-            Class.forName("org.sqlite.JDBC");
-
-            try {
-                conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
-
-                if (conn != null) {
-                    System.out.println("Connect!");
-                } else {
-                    System.out.println("Disconnected..");
-                }
-
-                String getWifiByName = "SELECT * FROM wifiList WHERE manageNum=?";
-                pstmt = conn.prepareStatement(getWifiByName);
-                pstmt.setString(1, mgrNo);
-
-                rs = pstmt.executeQuery();
-
-        %>
                 <tr>
-<%--                    <td>3</td>--%>
                     <td><%= distance %></td>
-                    <td><%= rs.getString("manageNum") %></td>
-                    <td><%= rs.getString("location") %></td>
+                    <td><%= rsWifi.getString("manageNum") %></td>
+                    <td><%= rsWifi.getString("location") %></td>
                     <td>
-
                         <form method="get">
-                            <input type="hidden" name="distance-point" value=<%=distance%>>
-                            <a href="?mgrNo=<%=rs.getString("manageNum")%>">
-                                <%= rs.getString("name") %>
+                            <input type="hidden" name="distance-point" value="<%=distance%>">
+                            <a href="?mgrNo=<%=rsWifi.getString("manageNum")%>">
+                                <%= rsWifi.getString("name") %>
                             </a>
                         </form>
-
                     </td>
-                    <td><%= rs.getString("roadAddress") %></td>
-                    <td><%= rs.getString("detailAddress") %></td>
-                    <td><%= rs.getString("layer") %></td>
-                    <td><%= rs.getString("category") %></td>
-                    <td><%= rs.getString("agency") %></td>
-                    <td><%= rs.getString("division") %></td>
-                    <td><%= rs.getString("webType") %></td>
-                    <td><%= rs.getString("installYear") %></td>
-                    <td><%= rs.getString("inOut") %></td>
-                    <td><%= rs.getString("environment") %></td>
-                    <td><%= rs.getString("latitude") %></td>
-                    <td><%= rs.getString("longitude") %></td>
-                    <td><%= rs.getString("createdAt") %></td>
+                    <td><%= rsWifi.getString("roadAddress") %></td>
+                    <td><%= rsWifi.getString("detailAddress") %></td>
+                    <td><%= rsWifi.getString("layer") %></td>
+                    <td><%= rsWifi.getString("category") %></td>
+                    <td><%= rsWifi.getString("agency") %></td>
+                    <td><%= rsWifi.getString("division") %></td>
+                    <td><%= rsWifi.getString("webType") %></td>
+                    <td><%= rsWifi.getString("installYear") %></td>
+                    <td><%= rsWifi.getString("inOut") %></td>
+                    <td><%= rsWifi.getString("environment") %></td>
+                    <td><%= rsWifi.getString("latitude") %></td>
+                    <td><%= rsWifi.getString("longitude") %></td>
+                    <td><%= rsWifi.getString("createdAt") %></td>
                 </tr>
-        <%
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (rs != null) try { rs.close(); } catch (SQLException ex) {}
-                if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
-                if (conn != null) try { conn.close(); } catch (SQLException ex) {}
-            }
-        %>
     </table>
+
+    </form>
 </div>
+<%--</form>--%>
+
+<%
+    } catch (Exception e) {
+        e.printStackTrace();
+
+    } finally {
+        if (pstmt != null) try { pstmt.close(); } catch (SQLException ex) {}
+        if (conn != null) try { conn.close(); } catch (SQLException ex) {}
+        if (rsOption != null) try { rsOption.close(); } catch (SQLException ex) {}
+        if (rsWifi != null) try { rsOption.close(); } catch (SQLException ex) {}
+    }
+
+%>
+
 </body>
 </html>

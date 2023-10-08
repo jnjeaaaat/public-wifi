@@ -15,8 +15,6 @@
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date now =new Date();
 
-
-
     String bmId = request.getParameter("bmId");
     String bmName = request.getParameter("bookmark-name");
     String bmNum = request.getParameter("bookmark-num");
