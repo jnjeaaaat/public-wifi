@@ -41,8 +41,6 @@
 
 <%
     // todo: 거리값 넘겨주기 아직 못함
-    // todo: detail.jsp 화면 수정
-    // todo: 중복 데이터 처리 못함
 
     WifiService wifiService = new WifiService();
     String latitude = request.getParameter("lat");
@@ -118,47 +116,22 @@
 
                     Iterator<PublicWifi> iterator = wifiList.iterator();
 
-                    while (iterator.hasNext()) {
-                        PublicWifi tmpPW = iterator.next();
+                    for (int i = 0; i < wifiList.size(); i++) {
+                        PublicWifi tmpPW = wifiList.get(i);
         %>
-<%--            <tr>--%>
-<%--                <td>3</td>--%>
-<%--                <td><%= rs.getString("manageNum") %></td>--%>
-<%--                <td><%= rs.getString("location") %></td>--%>
-<%--                <td>--%>
-<%--                    <form method="get" action="jsp/wifi/detail.jsp">--%>
-<%--                        <a href="jsp/wifi/detail.jsp?mgrNo=<%=rs.getString("manageNum")%>">--%>
-<%--                            <%= rs.getString("name") %>--%>
-<%--                        </a>--%>
-<%--                    </form>--%>
-<%--                </td>--%>
-<%--                <td><%= rs.getString("roadAddress") %></td>--%>
-<%--                <td><%= rs.getString("detailAddress") %></td>--%>
-<%--                <td><%= rs.getString("layer") %></td>--%>
-<%--                <td><%= rs.getString("category") %></td>--%>
-<%--                <td><%= rs.getString("agency") %></td>--%>
-<%--                <td><%= rs.getString("division") %></td>--%>
-<%--                <td><%= rs.getString("webType") %></td>--%>
-<%--                <td><%= rs.getString("installYear") %></td>--%>
-<%--                <td><%= rs.getString("inOut") %></td>--%>
-<%--                <td><%= rs.getString("environment") %></td>--%>
-<%--                <td><%= rs.getString("latitude") %></td>--%>
-<%--                <td><%= rs.getString("longitude") %></td>--%>
-<%--                <td><%= rs.getString("createdAt") %></td>--%>
-<%--            </tr>--%>
         <tr>
+            <form method="get" action="/detail">
+
             <td><%= tmpPW.getDistance() %></td>
             <td><%= tmpPW.getManageNum() %></td>
             <td><%= tmpPW.getLocation() %></td>
             <td>
-                <form method="get" action="/detail">
-                    <input type="hidden" name="distance-point" value="<%=tmpPW.getDistance()%>">
-                    <a href="/detail?mgrNo=<%=tmpPW.getManageNum()%>">
-                        <%= tmpPW.getName() %>
-                    </a>
-                </form>
+                <a href="/detail?mgrNo=<%=tmpPW.getManageNum()%>&distance=<%=tmpPW.getDistance()%>">
+                    <%= tmpPW.getName() %>
+                </a>
             </td>
-            <td><%= tmpPW.getRoadAddress() %></td>
+            <td>
+                <%= tmpPW.getRoadAddress() %></td>
             <td><%= tmpPW.getDetailAddress() %></td>
             <td><%= tmpPW.getLayer() %></td>
             <td><%= tmpPW.getCategory() %></td>
@@ -171,6 +144,7 @@
             <td><%= tmpPW.getLatitude() %></td>
             <td><%= tmpPW.getLongitude() %></td>
             <td><%= tmpPW.getCreatedAt() %></td>
+            </form>
         </tr>
         <%
                     }

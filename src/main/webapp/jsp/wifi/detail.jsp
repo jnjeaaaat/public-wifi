@@ -1,16 +1,19 @@
 <%@ page import="java.sql.*" %>
+<%@ page import="com.example.publicwifi.Service.DataService" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        table { border-collapse: collapse; width: 100%;}
+        table { border-collapse: collapse; width: 50%;}
         th { height: 30px; background-color: #04AA6D; color: white;}
-        td { padding-left: 10px; padding-right: 10px; height: 25px;}
-        tr:nth-child(odd) {background-color: #f2f2f2;}
+        td {padding-left: 10px; padding-right: 10px; height: 25px;}
+        tr { height: 50px; }
+        tr:nth-child(even) {background-color: #f2f2f2;}
         table, th, td { border: 1px solid lightgray; }
         div { margin-bottom: 10px; }
-        /*form { width: 10px; }*/
+
+        .vertical-td { width: 55%; text-align:center; background-color: #04AA6D; color: white; font-weight: bolder}
     </style>
     <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
     <script type="text/javascript" src="../../js/test.js"></script>
@@ -25,37 +28,41 @@
 <%--<form method="post" action="../bookmark/bookmark-add.jsp">--%>
 <div style="overflow-x:auto;">
 <%
-        request.setCharacterEncoding("utf-8");
+    request.setCharacterEncoding("utf-8");
 
-        String mgrNo = request.getParameter("mgrNo");
-        String distance = request.getParameter("distance-point");
-        String group_id = request.getParameter("group-id");
-        System.out.println(distance);
+    DataService dataService = new DataService();
+    String distance = request.getParameter("distance");
+    String mgrNo = request.getParameter("mgrNo");
+    String group_id = request.getParameter("group-id");
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rsOption = null;
-        ResultSet rsWifi = null;
+    System.out.println("distance : " + distance);
 
-        Class.forName("org.sqlite.JDBC");
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rsOption = null;
+    ResultSet rsWifi = null;
 
-        try {
-            conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
+    Class.forName("org.sqlite.JDBC");
 
-            if (conn != null) {
-                System.out.println("Connect!");
-            } else {
-                System.out.println("Disconnected..");
-            }
+    try {
+        conn = DriverManager.getConnection("jdbc:sqlite:" + "/Users/parktj/Documents/sqlite-studio-db/public-wifi.db");
 
-            String getBmNameListQuery = "SELECT bmId, bmName FROM bookmark ORDER BY bmNum ASC";
-            pstmt = conn.prepareStatement(getBmNameListQuery);
-            rsOption = pstmt.executeQuery();
+        if (conn != null) {
+            System.out.println("Connect!");
+        } else {
+            System.out.println("Disconnected..");
+        }
 
-            String getWifiByName = "SELECT * FROM wifiList WHERE manageNum=?";
-            pstmt = conn.prepareStatement(getWifiByName);
-            pstmt.setString(1, mgrNo);
-            rsWifi = pstmt.executeQuery();
+        String getBmNameListQuery = "SELECT bmId, bmName FROM bookmark ORDER BY bmNum ASC";
+        pstmt = conn.prepareStatement(getBmNameListQuery);
+        rsOption = pstmt.executeQuery();
+
+        String getWifiByName = "SELECT * FROM wifiList WHERE manageNum=?";
+        pstmt = conn.prepareStatement(getWifiByName);
+        pstmt.setString(1, mgrNo);
+        rsWifi = pstmt.executeQuery();
+
+//        double distance = dataService.getDistance();
 %>
     <form method="post" action="../../jsp/bookmark/bookmark-add.jsp">
         <input type="hidden" name="mgrNo" value="<%=rsWifi.getString("manageNum")%>">
@@ -76,55 +83,84 @@
 
     <table>
         <tr>
-            <th> 거리(Km) </th>
-            <th> 관리번호 </th>
-            <th> 자치구 </th>
-            <th> 와이파이명 </th>
-            <th> 도로명주소 </th>
-            <th> 상세주소 </th>
-            <th> 설치위치</br>(층) </th>
-            <th> 설치유형 </th>
-            <th> 설치기관 </th>
-            <th> 서비스구분 </th>
-            <th> 망종류 </th>
-            <th> 설치년도 </th>
-            <th> 실내외구분 </th>
-            <th> WIFI접속환경 </th>
-            <th> X좌표 </th>
-            <th> Y좌표 </th>
-            <th> 작업일자 </th>
+            <td class="vertical-td"> 거리(Km) </td>
+            <td><%= distance %></td>
         </tr>
-                <tr>
-                    <td><%= distance %></td>
-                    <td><%= rsWifi.getString("manageNum") %></td>
-                    <td><%= rsWifi.getString("location") %></td>
-                    <td>
-                        <form method="get">
-                            <input type="hidden" name="distance-point" value="<%=distance%>">
-                            <a href="?mgrNo=<%=rsWifi.getString("manageNum")%>">
-                                <%= rsWifi.getString("name") %>
-                            </a>
-                        </form>
-                    </td>
-                    <td><%= rsWifi.getString("roadAddress") %></td>
-                    <td><%= rsWifi.getString("detailAddress") %></td>
-                    <td><%= rsWifi.getString("layer") %></td>
-                    <td><%= rsWifi.getString("category") %></td>
-                    <td><%= rsWifi.getString("agency") %></td>
-                    <td><%= rsWifi.getString("division") %></td>
-                    <td><%= rsWifi.getString("webType") %></td>
-                    <td><%= rsWifi.getString("installYear") %></td>
-                    <td><%= rsWifi.getString("inOut") %></td>
-                    <td><%= rsWifi.getString("environment") %></td>
-                    <td><%= rsWifi.getString("latitude") %></td>
-                    <td><%= rsWifi.getString("longitude") %></td>
-                    <td><%= rsWifi.getString("createdAt") %></td>
-                </tr>
+        <tr>
+            <td class="vertical-td"> 관리번호 </td>
+            <td><%= rsWifi.getString("manageNum") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 자치구 </td>
+            <td><%= rsWifi.getString("location") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 와이파이명 </td>
+            <td>
+                <form method="get">
+                    <input type="hidden" name="distancePoint" value="<%=distance%>">
+                    <a href="?mgrNo=<%=rsWifi.getString("manageNum")%>" onclick="submit()">
+                        <%= rsWifi.getString("name") %>
+                    </a>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 도로명주소 </td>
+            <td><%= rsWifi.getString("roadAddress") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 상세주소 </td>
+            <td><%= rsWifi.getString("detailAddress") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 설치위치(층) </td>
+            <td><%= rsWifi.getString("layer") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 설치유형 </td>
+            <td><%= rsWifi.getString("category") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 설치기관 </td>
+            <td><%= rsWifi.getString("agency") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 서비스구분 </td>
+            <td><%= rsWifi.getString("division") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 망종류 </td>
+            <td><%= rsWifi.getString("webType") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 설치년도 </td>
+            <td><%= rsWifi.getString("installYear") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 실내외구분 </td>
+            <td><%= rsWifi.getString("inOut") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> WIFI접속환경 </td>
+            <td><%= rsWifi.getString("environment") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> X좌표 </td>
+            <td><%= rsWifi.getString("latitude") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> Y좌표 </td>
+            <td><%= rsWifi.getString("longitude") %></td>
+        </tr>
+        <tr>
+            <td class="vertical-td"> 작업일자 </td>
+            <td><%= rsWifi.getString("createdAt") %></td>
+        </tr>
     </table>
 
     </form>
 </div>
-<%--</form>--%>
 
 <%
     } catch (Exception e) {
