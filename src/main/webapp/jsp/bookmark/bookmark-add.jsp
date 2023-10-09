@@ -59,9 +59,7 @@
                 pstmt2.executeUpdate();
             }
         }
-//        pstmt = conn.prepareStatement(deleteHistory);
-//        pstmt.setString(1, historyId);
-//        pstmt.executeUpdate();
+
     } catch (Exception e) {
         e.printStackTrace();
     } finally {

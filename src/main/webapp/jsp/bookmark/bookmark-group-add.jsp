@@ -21,7 +21,19 @@
     </style>
     <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
     <script type="text/javascript" src="../../js/bookmark.js"></script>
+    <script>
+        function bookmarkCheck() {
+            if(document.bookmarkForm.bookmarkName.value == "" || document.bookmarkForm.bookmarkName.value.length < 0){
+                alert("이름을 입력해주세요.")
+                return false;
+            }
 
+            if(document.bookmarkForm.bookmarkNum.value == "" || document.bookmarkForm.bookmarkNum.value.length < 0){
+                alert("순번을 입력해주세요.")
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>
@@ -31,10 +43,10 @@
 <jsp:include page="../head.jsp"></jsp:include>
 
 <%--action="jsp/bookmark/bookmark-group-add-db.jsp"--%>
-
+<p> <button onclick="test()"> testButton </button></p>
 <div style="overflow-x:auto;">
     <table>
-        <form method="post" action="jsp/bookmark/bookmark-group-check.jsp" onsubmit="return isExist()" name="addBook" accept-charset="utf-8">
+        <form method="post" action="jsp/bookmark/bookmark-group-add-db.jsp" onsubmit="return bookmarkCheck();" id="bookmarkForm" name="bookmarkForm" accept-charset="utf-8">
             <tr>
                 <td class="vertical-td"> 북마크 이름 </td>
                 <td> <input type="text" name="bookmarkName" style="ime-mode: active"> </td>

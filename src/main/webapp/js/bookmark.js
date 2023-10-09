@@ -7,3 +7,9 @@ function existedData() {
 
     return false;
 }
+
+
+
+function test() {
+    alert("hi");
+}

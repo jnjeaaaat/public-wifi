@@ -40,6 +40,10 @@
 </div>
 
 <%
+    // todo: 거리값 넘겨주기 아직 못함
+    // todo: detail.jsp 화면 수정
+    // todo: 중복 데이터 처리 못함
+
     WifiService wifiService = new WifiService();
     String latitude = request.getParameter("lat");
     String longitude = request.getParameter("lnt");

@@ -21,6 +21,19 @@
     </style>
     <script src='http://code.jquery.com/jquery-2.2.3.min.js'></script>
     <script type="text/javascript" src="../../js/test.js"></script>
+    <script>
+        function bookmarkCheck() {
+            if(document.bookmarkForm.bookmarkName.value == "" || document.bookmarkForm.bookmarkName.value.length < 0){
+                alert("이름을 입력해주세요.")
+                return false;
+            }
+
+            if(document.bookmarkForm.bookmarkNum.value == "" || document.bookmarkForm.bookmarkNum.value.length < 0){
+                alert("순번을 입력해주세요.")
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>
@@ -52,7 +65,7 @@
 
 <div style="overflow-x:auto;">
     <table>
-        <form method="post" action="jsp/bookmark/bookmark-group-edit-db.jsp">
+        <form method="post" action="jsp/bookmark/bookmark-group-edit-db.jsp" onsubmit="return bookmarkCheck();" id="bookmarkForm" name="bookmarkForm">
             <input type="hidden" name="bmId" value="<%=rs.getString("bmId")%>">
             <tr>
                 <td class="vertical-td"> 북마크 이름 </td>
