@@ -19,6 +19,7 @@
     String bmId = request.getParameter("group-id");
     String wifiId = request.getParameter("wifiId");
     String mgrNo = request.getParameter("mgrNo");
+    String distance = request.getParameter("distance");
     System.out.println(mgrNo);
     System.out.println("add bookmark bmId : " + bmId);
     System.out.println("add bookmark wifiId : " + wifiId);
@@ -65,11 +66,12 @@
     } finally {
         if (pstmt1 != null) try { pstmt1.close(); } catch (SQLException ex) {}
         if (pstmt2 != null) try { pstmt2.close(); } catch (SQLException ex) {}
+        if (pstmt3 != null) try { pstmt3.close(); } catch (SQLException ex) {}
         if (rs != null) try { rs.close(); } catch (SQLException ex) {}
         if (conn != null) try { conn.close(); } catch (SQLException ex) {}
     }
 
-    response.sendRedirect("/detail?mgrNo="+mgrNo);
+    response.sendRedirect("/detail?mgrNo="+mgrNo+"&distance="+distance);
 %>
 
 </body>

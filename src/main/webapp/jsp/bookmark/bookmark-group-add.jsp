@@ -42,8 +42,6 @@
 
 <jsp:include page="../head.jsp"></jsp:include>
 
-<%--action="jsp/bookmark/bookmark-group-add-db.jsp"--%>
-<p> <button onclick="test()"> testButton </button></p>
 <div style="overflow-x:auto;">
     <table>
         <form method="post" action="jsp/bookmark/bookmark-group-add-db.jsp" onsubmit="return bookmarkCheck();" id="bookmarkForm" name="bookmarkForm" accept-charset="utf-8">

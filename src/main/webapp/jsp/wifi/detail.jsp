@@ -1,5 +1,4 @@
 <%@ page import="java.sql.*" %>
-<%@ page import="com.example.publicwifi.Service.DataService" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -30,7 +29,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    DataService dataService = new DataService();
     String distance = request.getParameter("distance");
     String mgrNo = request.getParameter("mgrNo");
     String group_id = request.getParameter("group-id");
@@ -66,6 +64,7 @@
 %>
     <form method="post" action="../../jsp/bookmark/bookmark-add.jsp">
         <input type="hidden" name="mgrNo" value="<%=rsWifi.getString("manageNum")%>">
+        <input type="hidden" name="distance" value="<%=distance%>">
         <select id="group-id" name="group-id">
             <option value="" <%=group_id==null?"selected":""%>>북마크 그룹 이름 선택</option>
             <%
@@ -98,8 +97,7 @@
             <td class="vertical-td"> 와이파이명 </td>
             <td>
                 <form method="get">
-                    <input type="hidden" name="distancePoint" value="<%=distance%>">
-                    <a href="?mgrNo=<%=rsWifi.getString("manageNum")%>" onclick="submit()">
+                    <a href="?mgrNo=<%=rsWifi.getString("manageNum")%>&distance=<%=distance%>">
                         <%= rsWifi.getString("name") %>
                     </a>
                 </form>

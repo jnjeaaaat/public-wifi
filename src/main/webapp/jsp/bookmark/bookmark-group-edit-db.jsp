@@ -57,9 +57,7 @@
         pstmt.setString(2, bmNum);
         pstmt.setString(3, nowStr);
         pstmt.setString(4, bmId);
-        if (isExistBookmarkNum != 1 && isExistBookmarkName != 1) {
-            pstmt.executeUpdate();
-        }
+        pstmt.executeUpdate();
 
     } catch (Exception e) {
         e.printStackTrace();
